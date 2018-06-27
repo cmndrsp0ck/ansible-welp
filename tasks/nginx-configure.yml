@@ -1,0 +1,31 @@
+---
+- name: Configure nginx service
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    mode: 0644
+  notify: restart nginx
+
+- name: Get active sites
+  shell: ls -1 /etc/nginx/sites-enabled
+  register: active
+
+- name: Disable unwanted sites
+  file:
+    path: "/etc/nginx/sites-enabled/{{ item }}"
+    state: absent
+  with_items: "{{ active.stdout_lines }}"
+  when: item != domain
+
+- name: Configure server block
+  template:
+    src: server-block.conf.j2
+    dest: "/etc/nginx/sites-available/{{ domain }}"
+    mode: 0644
+
+- name: Enable new site
+  file:
+    src: "/etc/nginx/sites-available/{{ domain }}"
+    dest: "/etc/nginx/sites-enabled/{{ domain }}"
+    state: link
+  notify: restart nginx

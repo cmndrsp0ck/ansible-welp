@@ -1,0 +1,25 @@
+---
+sys_user: "{{ vault_sys_user }}"
+domain: "example.com"
+doc_root: "/var/www/{{ domain }}"
+
+upload_max_filesize: "20M"
+post_max_size: "20M"
+
+wp_db_host: "\
+  {% if inventory_dir | basename == 'dev' %}\
+    {{'wordpress-db.local'}}\
+  {% else %}\
+    {{ hostvars[groups['ha_db_fip'][0]]['ip_address'] }}\
+  {% endif %}"
+wp_db_name: "{{ vault_wp_db_name }}"
+wp_db_user: "{{ vault_wp_db_user }}"
+wp_db_pass: "{{ vault_wp_db_pass }}"
+
+wp_salt: "{{ vault_wp_salt }}"
+
+tbl_prefix: "wp_"
+
+wp_plugin_list:
+  - "https://downloads.wordpress.org/plugin/do-spaces-sync.1.1.1.zip"
+  - "https://downloads.wordpress.org/plugin/ssl-insecure-content-fixer.2.6.0.zip"

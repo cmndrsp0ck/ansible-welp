@@ -1,0 +1,6 @@
+---
+- import_tasks: asserts.yml
+- import_tasks: server-base-prep.yml
+- import_tasks: php-fpm-configure.yml
+- import_tasks: nginx-configure.yml
+- import_tasks: wordpress-install.yml
