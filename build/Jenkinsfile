@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    environment {
+
+    }
+
+    stages {
+        stage('checkout scm') {
+            steps {
+                git pull git@github.com:cmndrsp0ck/glowing-spork.git
+            }
+        }
+/*        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+            }
+        }*/
+    }
+}
