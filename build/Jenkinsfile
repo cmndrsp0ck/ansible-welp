@@ -1,17 +1,20 @@
 pipeline {
     agent any
-  /*  options {
+    options {
 
     }
     environment {
-
-    }*/
+        PLAYBOOK_REPO="https://github.com/cmndrsp0ck/glowing-spork.git"
+        withCredentials([file(credentialsId: 'backend_tf', variable: 'BACKEND_TF')])
+    }
 
     stages {
-        stage('checkout scm') {
+        stage('initialize environment') {
             steps {
-              sh 'pwd'
+              pwd
               checkout scm
+              git url: "$PLAYBOOK_REPO"
+
               //git pull "https://github.com/cmndrsp0ck/glowing-spork.git"
             }
         }
