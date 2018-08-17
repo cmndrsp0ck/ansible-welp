@@ -11,6 +11,7 @@ pipeline {
         stage('checkout scm') {
             steps {
               sh 'pwd'
+              checkout scm
               //git pull "https://github.com/cmndrsp0ck/glowing-spork.git"
             }
         }
